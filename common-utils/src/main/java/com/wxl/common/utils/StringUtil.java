@@ -46,6 +46,16 @@ public class StringUtil {
 		return phone.matches("1[3579]\\d{9}");
 	}
 	
-
+	
+	public static boolean isEnglishChar(String str) {
+		int i = 0;
+		while(i!=(str.length()-1)) {
+			if(!((int)str.charAt(i)>=97 && (int)str.charAt(i)<=122)) {
+				return false;
+			}
+			i++;
+		}
+		return true;
+	}
 	
 }

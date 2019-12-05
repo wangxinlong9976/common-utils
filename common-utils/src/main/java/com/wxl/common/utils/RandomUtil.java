@@ -11,46 +11,32 @@ import java.util.Random;
  *
  */
 public class RandomUtil {
+	
 	/**
 	 * 
-	 * @Title: getRandomIntPrositive
-	 * @Description: TODO 随机生成一个正整数
+	 * @Title: randomChinese
+	 * @Description: TODO 随机生成range个中文字符
 	 * @param range
-	 * @return	返回一个 0 - range之间的正整数
-	 * @throws Exception    
-	 * Integer    
+	 * @return    
+	 * String    
 	 *
 	 */
-	public static Integer getRandomIntPrositive(Integer range) throws Exception{
-		Integer randNum = 0;
-		randNum = (int) Math.floor(Math.random()*range+1);
-		return randNum;
-	}
-	public static Integer getRandomIntPrositive(Integer minRange,Integer maxRange) throws Exception{
-		Integer randNum = 0;
-	
-		return randNum;
-	}
-	/**
-	 * 
-	 * @Title: getRandomIntMinus
-	 * @Description: TODO 随机生成一个正整数
-	 * @param range
-	 * @return 返回一个 0 - range之间的负整数
-	 * @throws Exception    
-	 * Integer    
-	 *
-	 */
-	public static Integer getRandomIntMinus(Integer range) throws Exception{
-		return getRandomIntMinus(range)*-1;
-	}
-	
 	public static String randomChinese(Integer range) {
-		Integer start = Integer.parseInt("4e00",16);
-		Integer end = Integer.parseInt("9fa5", 16);
-		System.out.println(start +"    "+end);
+		if(range<=0) {
+			System.err.println("随机生成的字符应该>0个");
+			return null;
+		}
+		Integer start = Integer.parseInt("4e00",16);   //19968
+		Integer end = Integer.parseInt("9fa5", 16);	   //40869
 		
-		return null;
+		char[] character = new char[range];
+		int code = 0;
+		int i = 0;
+		while((range--)>0) {
+			code = new Random().nextInt(end-start+1)+start;
+			character[i++]=(char)code;
+		}
+		return new String(character);
 		
 	}
 }
