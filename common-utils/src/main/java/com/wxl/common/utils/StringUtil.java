@@ -47,6 +47,15 @@ public class StringUtil {
 	}
 	
 	
+	/**
+	 * 	
+	 * @Title: isEnglishChar
+	 * @Description: TODO	验证是全为英文字符串
+	 * @param str
+	 * @return    
+	 * boolean    
+	 *
+	 */
 	public static boolean isEnglishChar(String str) {
 		int i = 0;
 		while(i!=(str.length()-1)) {
