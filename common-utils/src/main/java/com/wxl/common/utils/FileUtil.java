@@ -85,5 +85,18 @@ public class FileUtil {
 		os.close();
 		return bool;
 	}
+	
+	/**
+	 * 
+	 * @Title: getFileSize
+	 * @Description: TODO			获取文件的大小
+	 * @param file
+	 * @return    
+	 * String    
+	 *
+	 */
+	public static String getFileSize(File file) {
+		return file==null?null:file.getName()+"  >>> "+String.format("%.2f",file.length()/1024.0)+"K";
+	}
 
 }
