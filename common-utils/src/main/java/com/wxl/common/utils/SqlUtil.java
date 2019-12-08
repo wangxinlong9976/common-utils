@@ -6,6 +6,7 @@ import com.wxl.common.pojo.Student;
 
 public class SqlUtil {
 	
-	
-	
+	public static void createEntity() {
+		
+	}
 }

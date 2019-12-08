@@ -2,15 +2,22 @@ package com.wxl.common.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.nio.Buffer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -176,5 +183,43 @@ public class StreamUtil {
 	 */
 	public static File stringToFile(String fileName) {
 		return new File(fileName);
+	}
+	 
+	
+	@SuppressWarnings("resource")
+	public static List<String> readTxtOfLine(String path) {
+		FileInputStream fis = null;
+		Reader isr = null;
+		BufferedReader buffer = null;
+		List<String> list = null;
+		try {
+			fis = new FileInputStream(new File(path));
+			isr = new InputStreamReader(fis,"GBK");
+			buffer = new BufferedReader(isr);
+			String line = "";
+			list = new ArrayList<String>();
+			while((line=buffer.readLine())!=null) {
+				list.add(line);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeAll(buffer,isr,fis);
+		}
+		
+		return list;
+	}
+	public static void main(String[] args) {
+		List<String> readTxtOfLine = readTxtOfLine("aaa.txt");
+		for (String string : readTxtOfLine) {
+			System.out.println(string);
+		}
 	}
 }
