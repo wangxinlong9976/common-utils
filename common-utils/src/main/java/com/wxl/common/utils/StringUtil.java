@@ -67,4 +67,51 @@ public class StringUtil {
 		return true;
 	}
 	
+	
+	/**
+	 * 	
+	 * @Title: judgeTelephoneIsOk
+	 * @Description: TODO	验证是否是一个合法的手机号
+	 * @param phone
+	 * @return    
+	 * boolean    
+	 *
+	 */
+	public static boolean judgeTelephoneIsOk(String phone) {
+		if(phone==null) {
+			return false;
+		}
+		return phone.matches("1[3579]\\d{9}");
+	}
+	
+	
+	/**
+	 * 	
+	 * @Title: isNumber
+	 * @Description: TODO   判断是否是数字
+	 * @param num
+	 * @return    
+	 * boolean    
+	 *
+	 */
+	public static boolean isNumber(String num) {
+		if(num==null) {
+			return false;
+		}
+		int length = num.length();
+		int i = 0;
+		while((length--)>0) {
+			if(num.charAt(i)<48 || num.charAt(i)>57) {
+				return false;
+			}
+			i++;
+		}
+		return true;
+		
+	}
+	
+
+	
+	
+	
 }
