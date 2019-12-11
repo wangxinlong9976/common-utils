@@ -12,24 +12,14 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-/**
- * 	调用方法			SqlUtil.createEntity(String package,File file);
- * 	package   要向那个包下创建实体类
- * 	file	    含有DDL的文本的File对象
- * 	
- * 	exp:
- * 		SqlUtil.createEntity("com.wxl.common.pojo",new File("aaa.txt"));
- * 		执行后会在pojo包下创建一个实体类   
- * 		aaa.txt  是DDL信息	
- *
- */
+
 
 
 /**
  * 
  * @ClassName: SqlUtil
  * @Description: TODO	通过表DLL自动生成实体类
- * @author 王鑫龙
+ * @author 1709D-王鑫龙
  * @date 2019年12月10日
  *
  */
@@ -59,8 +49,9 @@ public class SqlUtil {
 		
 		String key = "";
 		String value = "";
-		for (int i = 0; i < str.size(); i++) {
+		for (int i = 0; i < str.size()-1; i++) {
 			String curr = str.get(i);
+			System.out.println("当前处理第"+(i+1)+"行:>>>"+curr);
 			if(curr.equals("")) {
 				continue;
 			}
@@ -70,12 +61,17 @@ public class SqlUtil {
 				continue;
 			}
 			for (String keySet : typeMap.keySet()) {
+				value="";
 				if(curr.contains(keySet)) {
 					value=typeMap.get(keySet);
 					break;
-				}
+				}	
 			}
 			System.out.println(key+"   "+value);
+//	
+			if(value==null || value.equals("")) {
+				continue;
+			}
 			map.put(key, value);
 		}
 		return map;
@@ -91,7 +87,8 @@ public class SqlUtil {
 	 */
 	public static Map<String,String> getTypeMap() {
 		Map<String, String> typeMap = new LinkedHashMap<>();
-		typeMap.put("int", "Integer");
+		//	key是mysql数据类型                 value是java数据类型
+ 		typeMap.put("int", "Integer");
 		typeMap.put("varchar", "String");
 		typeMap.put("double", "double");
 		typeMap.put("date ", "Date");
@@ -101,6 +98,16 @@ public class SqlUtil {
 		return typeMap;
 	}
 	
+	/**
+	 * 
+	 * @Title: createEntity
+	 * @Description: TODO		创建实体类的入口方法
+	 * @param packName
+	 * @param file
+	 * @throws URISyntaxException    
+	 * void    
+	 *
+	 */
 	public static void createEntity(String packName,File file) throws URISyntaxException {
 		/**
 		 * 	将包名转换成路径
@@ -115,6 +122,7 @@ public class SqlUtil {
 		Map<String,String> map = varAndTypeMap();
 		List<String> proccessList = proccessTxt(packName, map);
 		BufferedOutputStream bos = null;
+		
 		String fileName = map.get("$name$").substring(0,1).toUpperCase()+map.get("$name$").substring(1);
 		System.out.println("文件名:"+fileName+".java");
 		File f1 = new File(fileName+".java");
@@ -123,12 +131,14 @@ public class SqlUtil {
 		String rPath = f2Abs.substring(0,f2Abs.indexOf("target\\classes"))+"src\\main\\java\\"+relaPath;
 		System.out.println("类所在的绝对路径:   "+rPath);
 		
-		File f3 = null;
+		File f3 = new File(rPath,f1.getName());
 		if(f2.isDirectory()) {
-			if(f1.exists()) {
+			if(f3.exists()) {
+				System.err.println("文件已存在!");
+				System.out.println("Waiting .....");
 				return ;
 			}
-			f3 = new File(rPath,f1.getName());
+			
 			System.out.println("f1:  "+f1.getName());
 			System.out.println("f2:  "+f2.getAbsolutePath());
 			System.out.println("f3:  "+f3.getPath());
@@ -260,4 +270,8 @@ public class SqlUtil {
 //		System.out.println("\"");
 //		\"  ==>  "   转义
 	}
+	
+	
+	
+	
 }
